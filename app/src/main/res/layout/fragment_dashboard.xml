@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <EditText
         android:id="@+id/editText"
         android:layout_width="212dp"
@@ -66,4 +65,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText"
         app:layout_constraintVertical_bias="0.183" />
+
+    <Button
+        android:id="@+id/image_uploader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="uploader"
+        android:text="image uploader"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="@+id/button2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img" />
 </androidx.constraintlayout.widget.ConstraintLayout>

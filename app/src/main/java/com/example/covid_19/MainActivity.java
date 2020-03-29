@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.storage.FirebaseStorage;
@@ -19,6 +20,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private Uri filepath;
     private FirebaseStorage storage;
     private StorageReference storageReference;
+    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +59,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
 
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
 
-        chooser = (Button) findViewById(R.id.choose);
+       // chooser = (Button) findViewById(R.id.choose);
         imageview =(ImageView) findViewById(R.id.img);
 
 
@@ -84,7 +86,9 @@ public class MainActivity extends AppCompatActivity {
             filepath = data.getData();
            // Bundle extras = data.getExtras();
            // Bitmap bitmap = (Bitmap) extras.get("data");
-            imageview.setImageResource(R.drawable.common_google_signin_btn_icon_dark_normal);
+
+            imageview =(ImageView) findViewById(R.id.img);
+           // imageview.setImageResource(R.drawable.common_google_signin_btn_icon_dark_normal);
 
             try {
                 //Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -97,14 +101,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+public void uploader(View view)
+{
+    uploadImage();
 
+}
     public  void locator(View view){
-         startActivity(new Intent(this, MapsActivity.class));
-         uploadimage();
+        startActivity(new Intent(this, MapsActivity.class));
 
     }
 
-    private void uploadimage() {
+    private void uploadImage() {
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
 
         if(filepath != null)
         {
@@ -130,5 +140,82 @@ public class MainActivity extends AppCompatActivity {
                     });
         }
     }
+   /*private void uploadImage()
+   {
 
+       storage = FirebaseStorage.getInstance();
+       storageReference = storage.getReference();
+       if (filepath != null) {
+
+           // Code for showing progressDialog while uploading
+           final ProgressDialog progressDialog
+                   = new ProgressDialog(this);
+           progressDialog.setTitle("Uploading...");
+           progressDialog.show();
+
+           // Defining the child of storageReference
+           StorageReference ref
+                   = storageReference
+                   .child(
+                           "images/"
+                                   + UUID.randomUUID().toString());
+
+           // adding listeners on upload
+           // or failure of image
+           ref.putFile(filepath)
+                   .addOnSuccessListener(
+                           new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+                               @Override
+                               public void onSuccess(
+                                       UploadTask.TaskSnapshot taskSnapshot)
+                               {
+
+                                   // Image uploaded successfully
+                                   // Dismiss dialog
+                                   progressDialog.dismiss();
+                                   Toast
+                                           .makeText(MainActivity.this,
+                                                   "Image Uploaded!!",
+                                                   Toast.LENGTH_SHORT)
+                                           .show();
+                               }
+                           })
+
+                   .addOnFailureListener(new OnFailureListener() {
+                       @Override
+                       public void onFailure(@NonNull Exception e)
+                       {
+
+                           // Error, Image not uploaded
+                           progressDialog.dismiss();
+                           Toast
+                                   .makeText(MainActivity.this,
+                                           "Failed " + e.getMessage(),
+                                           Toast.LENGTH_SHORT)
+                                   .show();
+                       }
+                   })
+                   .addOnProgressListener(
+                           new OnProgressListener<UploadTask.TaskSnapshot>() {
+
+                               // Progress Listener for loading
+                               // percentage on the dialog box
+                               @Override
+                               public void onProgress(
+                                       UploadTask.TaskSnapshot taskSnapshot)
+                               {
+                                   double progress
+                                           = (100.0
+                                           * taskSnapshot.getBytesTransferred()
+                                           / taskSnapshot.getTotalByteCount());
+                                   progressDialog.setMessage(
+                                           "Uploaded "
+                                                   + (int)progress + "%");
+                               }
+                           });
+       }
+   }*/
 }
+
+

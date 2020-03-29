@@ -211,7 +211,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
         latlng=new LatLng(location.getLatitude(),location.getLongitude());
 
-       mauth =FirebaseAuth.getInstance();
+  /*     mauth =FirebaseAuth.getInstance();
         mfirebasedatabase =FirebaseDatabase.getInstance();
         myRef = mfirebasedatabase.getReference();
 
@@ -234,7 +234,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         myRef.child("covid19hack-81596").child("user").child("user1").child("location").child("0").child("y").setValue(location.getLongitude());
 
 
-
+*/
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
